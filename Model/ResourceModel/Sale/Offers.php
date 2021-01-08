@@ -18,6 +18,8 @@ class Offers extends AbstractResource
     /** @var Guid */
     protected $guid;
 
+    const limit = 100;
+
     /**
      * Offers constructor.
      * @param ScopeConfigInterface $scopeConfig
@@ -48,6 +50,12 @@ class Offers extends AbstractResource
     {
         return $this->requestGet('/sale/offers/' . $offerId);
     }
+
+    public function all(int $page = 0)
+    {
+        return $this->requestGet(sprintf('/sale/offers?limit=%d&offset=%d', self::limit, $this->getOffset($page)));
+    }
+
 
     /**
      * @param string $offerId
@@ -159,5 +167,19 @@ class Offers extends AbstractResource
         ];
 
         return $this->requestPut('/sale/offer-price-change-commands/' . $this->guid->getGuid(), $params);
+    }
+
+    public function getLimit()
+    {
+        return self::limit;
+    }
+
+    /**
+     * @param int $page
+     * @return float|int
+     */
+    protected function getOffset(int $page)
+    {
+        return ($page * $this->getLimit());
     }
 }

@@ -61,4 +61,13 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
 
         return $connection->fetchRow($select, $bind);
     }
+
+    /**
+     * @param string $allegro_offer_id
+     * @throws \Exception
+     */
+    public function setAllegroOfferId(string $allegro_offer_id){
+        $this->setData('allegro_offer_id', $allegro_offer_id);
+        $this->save();
+    }
 }

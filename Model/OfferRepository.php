@@ -2,6 +2,7 @@
 
 namespace Macopedia\Allegro\Model;
 
+use Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost;
 use Macopedia\Allegro\Api\Data\ImageInterface;
 use Macopedia\Allegro\Api\Data\OfferInterface;
 use Macopedia\Allegro\Api\Data\OfferInterfaceFactory;
@@ -96,5 +97,40 @@ class OfferRepository implements OfferRepositoryInterface
         $offer = $this->offerFactory->create();
         $offer->setRawData($offerData);
         return $offer;
+    }
+
+
+    public function all(): array
+    {
+        $offers = [];
+        $page = 0;
+        try {
+            do{
+                $response = $this->offers->all($page++);
+                foreach($response['offers'] as $offerData){
+                    /** @var OfferInterface $offer */
+                    $offer = $this->offerFactory->create();
+                    $offer->setRawData($this->offers->get($offerData['id']));
+                    $offers[] = $offer;
+
+                }
+            }while($this->isNextPage($response));
+
+
+        } catch (ClientResponseException $e) {
+            throw new CouldNotConnectToHost(__('Could not connect to host'), $e);
+        }
+        return $offers;
+
+    }
+
+    /**
+     * @param array $response
+     * @return bool
+     */
+    protected function isNextPage(array $response): bool
+    {
+
+        return $response['count'] == $this->offers->getLimit() && $response['count'] < $response['totalCount'];
     }
 }
