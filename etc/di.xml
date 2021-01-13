@@ -22,8 +22,10 @@
     <preference for="Macopedia\Allegro\Api\WarrantyRepositoryInterface" type="Macopedia\Allegro\Model\WarrantyRepository" />
     <preference for="Macopedia\Allegro\Api\OrderLogRepositoryInterface" type="Macopedia\Allegro\Model\OrderLogRepository" />
     <preference for="Macopedia\Allegro\Api\ReservationRepositoryInterface" type="Macopedia\Allegro\Model\ReservationRepository" />
+    <preference for="Macopedia\Allegro\Api\CompetitionRepositoryInterface" type="Macopedia\Allegro\Model\CompetitionRepository" />
 
     <preference for="Macopedia\Allegro\Api\Data\OfferInterface" type="Macopedia\Allegro\Model\Data\Offer" />
+    <preference for="Macopedia\Allegro\Api\Data\CompetitionInterface" type="Macopedia\Allegro\Model\Data\Competition" />
     <preference for="Macopedia\Allegro\Api\Data\Offer\LocationInterface" type="Macopedia\Allegro\Model\Data\Offer\Location" />
     <preference for="Macopedia\Allegro\Api\Data\Offer\AfterSalesServicesInterface" type="Macopedia\Allegro\Model\Data\Offer\AfterSalesServices" />
     <preference for="Macopedia\Allegro\Api\Data\CategoryInterface" type="Macopedia\Allegro\Model\Data\Category" />
@@ -62,6 +64,7 @@
     <preference for="Macopedia\Allegro\Api\Data\Sales\Order\PickupPointExtensionAttributesInterface" type="Macopedia\Allegro\Model\Data\Sales\Order\PickupPointExtensionAttributes" />
     <preference for="Macopedia\Allegro\Api\Data\OrderLogInterface" type="Macopedia\Allegro\Model\OrderLog" />
     <preference for="Macopedia\Allegro\Api\Data\ReservationInterface" type="Macopedia\Allegro\Model\Reservation" />
+    <preference for="Macopedia\Allegro\Api\Data\CompetitionModelInterface" type="Macopedia\Allegro\Model\Competition" />
     <preference for="Macopedia\Allegro\Api\Data\AllegroReservationsInterface" type="Macopedia\Allegro\Model\OrderImporter\AllegroReservation" />
 
     <preference for="Magento\Sales\Block\Adminhtml\Order\View\Info" type="Macopedia\Allegro\Block\Adminhtml\HideAddressInformation" />
@@ -81,6 +84,7 @@
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
+                <item name="CompetitionsImport" xsi:type="object">Macopedia\Allegro\Console\Command\CompetitionsImport</item>
                 <item name="AssociateOffers" xsi:type="object">Macopedia\Allegro\Console\Command\AssociateOffers</item>
                 <item name="OrdersImport" xsi:type="object">Macopedia\Allegro\Console\Command\ImportOrders</item>
                 <item name="OrderImport" xsi:type="object">Macopedia\Allegro\Console\Command\ImportOrder</item>

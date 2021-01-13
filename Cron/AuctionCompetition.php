@@ -11,9 +11,9 @@ use Macopedia\Allegro\Model\OrderImporter\AllegroReservation;
 /**
  * Class responsible for cleaning old reservations
  */
-class CleanReservations
+class AuctionCompetition
 {
-    const CRON_CONFIG_KEY = 'allegro/order/competition_cron_enabled';
+    const RESERVATIONS_CRON_CONFIG_KEY = 'allegro/competition/reservations_cron_enabled';
 
     /** @var Logger */
     private $logger;
@@ -21,6 +21,8 @@ class CleanReservations
     /** @var ScopeConfigInterface */
     private $scopeConfig;
 
+    /** @var AllegroReservation */
+    private $allegroReservation;
 
     /**
      * @param Logger $logger
@@ -29,16 +31,19 @@ class CleanReservations
      */
     public function __construct(
         Logger $logger,
-        ScopeConfigInterface $scopeConfig
+        ScopeConfigInterface $scopeConfig,
+        AllegroReservation $allegroReservation
     ) {
         $this->logger = $logger;
         $this->scopeConfig = $scopeConfig;
+        $this->allegroReservation = $allegroReservation;
     }
 
     public function execute()
     {
-        if ($this->scopeConfig->getValue(self::CRON_CONFIG_KEY)) {
-            $this->logger->addInfo("Cronjob search competition auctions is executed.");
+        if ($this->scopeConfig->getValue(self::RESERVATIONS_CRON_CONFIG_KEY)) {
+            $this->logger->addInfo("Cronjob clean reservations is executed.");
+            $this->allegroReservation->cleanOldReservations();
         }
     }
 }

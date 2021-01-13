@@ -174,4 +174,21 @@ class ProductRepository extends \Magento\Catalog\Model\ProductRepository impleme
 
         return null;
     }
+
+    /**
+     * @return ProductInterface|null
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getProductWithAllegroSearchKeywordAttribute(): array
+    {
+        $rawDatas = $this->resourceModel->getProductWithAllegroSearchKeywordAttribute();
+        $products = [];
+        foreach($rawDatas as $rawData){
+            $product = $this->productFactory->create();
+            $product->setData($rawData);
+            $products[] = $product;
+        }
+
+        return $products;
+    }
 }

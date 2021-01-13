@@ -171,6 +171,13 @@
                     <label>City</label>
                 </field>
             </group>
+            <group id="competition" translate="label" type="text" sortOrder="81" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Competition</label>
+                <field id="competition_cron_enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable searching competition auctions</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
         </section>
     </system>
 </config>

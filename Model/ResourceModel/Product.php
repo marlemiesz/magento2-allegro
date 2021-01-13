@@ -70,4 +70,26 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
         $this->setData('allegro_offer_id', $allegro_offer_id);
         $this->save();
     }
+
+    /**
+     * @return mixed
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function getProductWithAllegroSearchKeywordAttribute()
+    {
+        $allegroOfferIdAttribute = $this->_eavConfig->getAttribute($this->getEntityType(), 'allegro_search_keyword');
+
+        $connection = $this->getConnection();
+
+        $select = $connection->select()
+            ->from(['e' => 'catalog_product_entity'], ['entity_id','sku'])
+            ->join(['t1' => $allegroOfferIdAttribute->getBackendTable()], 't1.entity_id = e.entity_id',['allegro_search_keyword'=>'value'])
+            ->where('t1.value IS NOT NULL')
+            ->where('t1.attribute_id = :attributeId');
+
+        $bind = [
+            ':attributeId' => (int)$allegroOfferIdAttribute->getId()
+        ];
+        return $connection->fetchAll($select, $bind);
+    }
 }

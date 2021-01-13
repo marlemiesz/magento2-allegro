@@ -78,4 +78,35 @@
         </constraint>
     </table>
 
+    <table name="allegro_competition_auctions" resource="default" engine="innodb" comment="Table with competitions auctions">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Product Id"/>
+        <column xsi:type="varchar" name="allegro_auction_id" nullable="false" comment="Auction id"/>
+        <column xsi:type="varchar" name="name" nullable="false" comment="Name"/>
+        <column xsi:type="varchar" name="image" nullable="false" comment="Image"/>
+        <column xsi:type="decimal" name="price" nullable="false" scale="2" precision="12" comment="Checkout form ID"/>
+        <column xsi:type="int" name="quantity" default="0" padding="10" unsigned="true" nullable="false" identity="false" comment="Quantity"/>
+        <column xsi:type="boolean" name="active" default="0" nullable="false" comment="active"/>
+        <column xsi:type="boolean" default="0" name="is_competition" comment=""/>
+        <column xsi:type="boolean" default="0" name="is_choose" comment=""/>
+        <column xsi:type="datetime" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation date"/>
+        <constraint xsi:type="foreign" referenceId="FOREIGN" table="allegro_competition_auctions" column="product_id" referenceTable="catalog_product_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <index referenceId="ALLEGRO_COMPETITION_AUCTIONS_ACTIVE" indexType="btree">
+            <column name="active"/>
+        </index>
+        <index referenceId="ALLEGRO_COMPETITION_AUCTIONS_IS_COMPETITION" indexType="btree">
+            <column name="is_competition"/>
+        </index>
+        <index referenceId="ALLEGRO_COMPETITION_AUCTIONS_IS_COMPETITION_ACTIVE" indexType="btree">
+            <column name="active"/>
+            <column name="is_competition"/>
+        </index>
+        <index referenceId="ALLEGRO_COMPETITION_AUCTIONS_IS_CHOOSE" indexType="btree">
+            <column name="is_choose"/>
+        </index>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+
 </schema>

@@ -182,4 +182,25 @@ class Offers extends AbstractResource
     {
         return ($page * $this->getLimit());
     }
+
+    /**
+     * @param string $phrase
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     * @throws ClientException
+     * @throws \Macopedia\Allegro\Model\Api\ClientResponseErrorException
+     * @throws \Macopedia\Allegro\Model\Api\ClientResponseException
+     */
+    public function competitions(string $phrase, $offset=0, int $limit = 60)
+    {
+        return $this->requestGet(
+            sprintf(
+                '/offers/listing?limit=%s&phrase=%s&sellingMode.format=BUY_NOW&offset=%s',
+                $limit,
+                $phrase,
+                ($offset*$limit)
+            )
+        );
+    }
 }

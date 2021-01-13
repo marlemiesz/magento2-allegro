@@ -6,6 +6,7 @@ use Elasticsearch\Common\Exceptions\Curl\CouldNotConnectToHost;
 use Macopedia\Allegro\Api\Data\ImageInterface;
 use Macopedia\Allegro\Api\Data\OfferInterface;
 use Macopedia\Allegro\Api\Data\OfferInterfaceFactory;
+use Macopedia\Allegro\Api\Data\CompetitionInterfaceFactory;
 use Macopedia\Allegro\Api\ImageRepositoryInterface;
 use Macopedia\Allegro\Api\OfferRepositoryInterface;
 use Macopedia\Allegro\Model\ResourceModel\Sale\Offers;
@@ -13,6 +14,7 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Macopedia\Allegro\Model\Api\ClientResponseException;
 use Macopedia\Allegro\Model\Api\ClientException;
+use Vertex\Exception\ApiException;
 
 class OfferRepository implements OfferRepositoryInterface
 {
@@ -25,21 +27,28 @@ class OfferRepository implements OfferRepositoryInterface
 
     /** @var ImageRepositoryInterface */
     private $imageRepository;
+    /**
+     * @var CompetitionInterfaceFactory
+     */
+    private $competitionInterfaceFactory;
 
     /**
      * OfferRepository constructor.
      * @param Offers $offers
      * @param OfferInterfaceFactory $offerFactory
      * @param ImageRepositoryInterface $imageRepository
+     * @param CompetitionInterfaceFactory $competitionInterfaceFactory
      */
     public function __construct(
         Offers $offers,
         OfferInterfaceFactory $offerFactory,
-        ImageRepositoryInterface $imageRepository
+        ImageRepositoryInterface $imageRepository,
+        CompetitionInterfaceFactory $competitionInterfaceFactory
     ) {
         $this->offers = $offers;
         $this->offerFactory = $offerFactory;
         $this->imageRepository = $imageRepository;
+        $this->competitionInterfaceFactory = $competitionInterfaceFactory;
     }
 
     /**
@@ -125,6 +134,34 @@ class OfferRepository implements OfferRepositoryInterface
     }
 
     /**
+     * @param string $phrase
+     * @return array
+     * @throws ClientException
+     * @throws CouldNotConnectToHost
+     */
+    public function competitionAll(string $phrase):array
+    {
+
+        $page = 0;
+        try {
+            $competitions = [];
+            do{
+                $response = $this->offers->competitions($phrase, $page++);
+                $competitions = array_merge($competitions, $this->setCompetition($response['items']['promoted']));
+                $competitions = array_merge($competitions, $this->setCompetition($response['items']['regular']));
+
+            }while($this->isNextPageCompetition($response));
+
+            return $competitions;
+
+
+        } catch (ClientResponseException $e) {
+            throw new ApiException($e->getMessage());
+        }
+        return $offers;
+    }
+
+    /**
      * @param array $response
      * @return bool
      */
@@ -132,5 +169,26 @@ class OfferRepository implements OfferRepositoryInterface
     {
 
         return $response['count'] == $this->offers->getLimit() && $response['count'] < $response['totalCount'];
+    }
+
+    protected function isNextPageCompetition(array $response): bool
+    {
+        return (count($response['items']['promoted']) + count($response['items']['regular'])) > 0;
+    }
+
+    /**
+     * @param array $offers
+     * @return array
+     */
+    protected function setCompetition(array $offers): array
+    {
+        $competitions = [];
+        foreach($offers as $offer) {
+            $competition = $this->competitionInterfaceFactory->create();
+            $competition->setRawData($offer);
+            $competitions[] = $competition;
+        }
+        return $competitions;
+
     }
 }

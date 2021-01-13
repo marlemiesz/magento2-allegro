@@ -71,5 +71,30 @@
             "FK_0DF36C9A02B0CEA1AF96F370F2C37537": true,
             "PRIMARY": true
         }
+    },
+    "allegro_competition_auctions": {
+        "column": {
+            "entity_id": true,
+            "product_id": true,
+            "allegro_auction_id": true,
+            "price": true,
+            "quantity": true,
+            "active": true,
+            "created_at": true,
+            "is_competition": true,
+            "is_choose": true,
+            "name": true,
+            "image": true
+        },
+        "constraint": {
+            "ALLEGRO_COMPETITION_AUCTIONS_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true,
+            "PRIMARY": true
+        },
+        "index": {
+            "ALLEGRO_COMPETITION_AUCTIONS_ACTIVE": true,
+            "ALLEGRO_COMPETITION_AUCTIONS_IS_COMPETITION": true,
+            "ALLEGRO_COMPETITION_AUCTIONS_ACTIVE_IS_COMPETITION": true,
+            "ALLEGRO_COMPETITION_AUCTIONS_IS_CHOOSE": true
+        }
     }
 }
