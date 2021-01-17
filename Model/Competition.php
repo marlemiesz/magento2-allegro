@@ -70,7 +70,7 @@ class Competition extends AbstractModel implements CompetitionModelInterface
      */
     public function setAllegroAuctionId(string $allegro_auction_id)
     {
-        $this->setData(self::PRODUCT_ID_FIELD, $allegro_auction_id);
+        $this->setData(self::ALLEGRO_AUCTION_ID_FIELD, $allegro_auction_id);
     }
 
     /**
@@ -120,6 +120,24 @@ class Competition extends AbstractModel implements CompetitionModelInterface
     public function setIsCompetition(bool $is_competition): bool
     {
         $this->setData(self::IS_COMPETITION_FIELD, (int) $is_competition);
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getActive(): bool
+    {
+        return (bool)$this->getData(self::ACTIVE_FIELD);
+    }
+
+    /**
+     * @param bool $active
+     * @return bool
+     */
+    public function setActive(bool $active)
+    {
+        $this->setData(self::ACTIVE_FIELD, $active);
     }
 
     /**

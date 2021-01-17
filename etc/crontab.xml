@@ -4,6 +4,9 @@
         <job instance="Macopedia\Allegro\Cron\ImportOrders" method="execute" name="macopedia_allegro_order_import">
             <schedule>*/5 * * * *</schedule>
         </job>
+        <job instance="Macopedia\Allegro\Cron\CompetitionsImport" method="execute" name="macopedia_allegro_competition_import">
+            <schedule>*/30 * * * *</schedule>
+        </job>
         <job instance="Macopedia\Allegro\Cron\ImportOrdersWithErrors" method="execute" name="macopedia_allegro_order_with_errors_import">
             <schedule>0 * * * *</schedule>
         </job>

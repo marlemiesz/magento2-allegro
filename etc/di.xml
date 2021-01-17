@@ -129,6 +129,13 @@
         </arguments>
     </type>
 
+    <virtualType name="Macopedia\Allegro\Model\ResourceModel\Competition\Collection\Grid" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">allegro_competition_auctions</argument>
+            <argument name="resourceModel" xsi:type="string">Macopedia\Allegro\Model\ResourceModel\Competition</argument>
+        </arguments>
+    </virtualType>
+
     <virtualType name="Macopedia\Allegro\Model\ResourceModel\OrderLog\Collection\Grid" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
             <argument name="mainTable" xsi:type="string">allegro_orders_with_errors</argument>

@@ -57,6 +57,7 @@ class Processor
      */
     public function processProduct(ProductInterface $product)
     {
+        $this->competitionRepository->deactivationByProductId($product->getId());
         foreach($this->searchKeywordDecoder->decode($product->getData('allegro_search_keyword')) as $keyword){
             $competitions = $this->offerRepository->competitionAll($keyword);
             $this->processCompetitions($competitions, $product);
@@ -82,16 +83,21 @@ class Processor
      */
     public function processCompetition(CompetitionInterface $competition, ProductInterface $product)
     {
-        $competitionModel = $this->objectManager->create(CompetitionModelInterface::class);
+
+
+        $competitionModel = $this->competitionRepository->getAllegroAuctionId($competition->getId());
+        if(!$competitionModel || !$competitionModel->getEntityId()){
+            $competitionModel = $this->objectManager->create(CompetitionModelInterface::class);
+        }
         $competitionModel->setAllegroAuctionId($competition->getId());
         $competitionModel->setProductId($product->getId());
         $competitionModel->setPrice((float) $competition->getPrice());
         $competitionModel->setQuantity((int) $competition->getQty());
         $competitionModel->setName($competition->getName());
         $competitionModel->setImage($competition->getImage());
-
+        $competitionModel->setActive(true);
         $this->competitionRepository->save($competitionModel);
-        die();
+
     }
 
 }
