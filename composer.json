@@ -28,6 +28,7 @@
     "php": "^7.1",
     "guzzlehttp/guzzle": "*",
     "ext-fileinfo": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "google/apiclient": "^2.9"
   }
 }

@@ -177,6 +177,15 @@
                     <label>Enable searching competition auctions</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="competition_google_credentials" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google credentials (json)</label>
+                </field>
+                <field id="competition_google_sheet_id" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google sheets id</label>
+                </field>
+                <field id="competition_google_sheet_name" translate="label" type="text" sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google sheets name</label>
+                </field>
             </group>
         </section>
     </system>

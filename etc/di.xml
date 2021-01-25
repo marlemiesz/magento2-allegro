@@ -85,6 +85,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="CompetitionsImport" xsi:type="object">Macopedia\Allegro\Console\Command\CompetitionsImport</item>
+                <item name="CompetitionsSendToGoogleSheet" xsi:type="object">Macopedia\Allegro\Console\Command\CompetitionsSendToGoogleSheet</item>
                 <item name="AssociateOffers" xsi:type="object">Macopedia\Allegro\Console\Command\AssociateOffers</item>
                 <item name="OrdersImport" xsi:type="object">Macopedia\Allegro\Console\Command\ImportOrders</item>
                 <item name="OrderImport" xsi:type="object">Macopedia\Allegro\Console\Command\ImportOrder</item>

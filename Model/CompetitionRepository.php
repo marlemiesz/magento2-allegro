@@ -32,6 +32,10 @@ class CompetitionRepository implements CompetitionRepositoryInterface
 
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
+    /**
+     * @var \Magento\Framework\App\ResourceConnection
+     */
+    private $resourceConnection;
 
     /**
      * ReservationLogRepository constructor.
@@ -40,19 +44,22 @@ class CompetitionRepository implements CompetitionRepositoryInterface
      * @param ResourceModel $resource
      * @param ReservationInterfaceFactory $reservationFactory
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\App\ResourceConnection $resourceConnection
      */
     public function __construct(
         CollectionFactory $collectionFactory,
         CollectionProcessorInterface $collectionProcessor,
         ResourceModel $resource,
         ReservationInterfaceFactory $reservationFactory,
-        SearchCriteriaBuilder $searchCriteriaBuilder
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\App\ResourceConnection $resourceConnection
     ) {
         $this->collectionFactory = $collectionFactory;
         $this->collectionProcessor = $collectionProcessor;
         $this->resource = $resource;
         $this->reservationFactory = $reservationFactory;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->resourceConnection = $resourceConnection;
     }
 
     /**
@@ -131,8 +138,47 @@ class CompetitionRepository implements CompetitionRepositoryInterface
     }
 
     /**
+     * @param int $productId
+     * @param string $auctionId
+     * @return void
+     */
+    public function setCompetitionByProductIdAndAuctionId(int $productId, string $auctionId): void
+    {
+
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(Competition::PRODUCT_ID_FIELD, $productId)
+            ->addFilter(Competition::ALLEGRO_AUCTION_ID_FIELD, $auctionId)
+            ->create();
+
+        $collection = $this->getCollection($searchCriteria);
+
+        $collection->setDataToAll(Competition::IS_CHOOSE_FIELD, true);
+        $collection->setDataToAll(Competition::IS_COMPETITION_FIELD, true);
+        $collection->save();
+    }
+
+    /**
+     * @param int $productId
+     * @param string $auctionId
+     * @return void
+     */
+    public function setNotCompetitionByProductIdAndAuctionId(int $productId, string $auctionId): void
+    {
+
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(Competition::PRODUCT_ID_FIELD, $productId)
+            ->addFilter(Competition::ALLEGRO_AUCTION_ID_FIELD, $auctionId)
+            ->create();
+
+        $collection = $this->getCollection($searchCriteria);
+
+        $collection->setDataToAll(Competition::IS_CHOOSE_FIELD, true);
+        $collection->save();
+    }
+
+    /**
      * @param string $allegroAuctionId
-     * @return array
+     * @return Competition
      */
     public function getAllegroAuctionId(string $allegroAuctionId): Competition
     {
@@ -141,6 +187,31 @@ class CompetitionRepository implements CompetitionRepositoryInterface
             ->addFilter(Competition::ALLEGRO_AUCTION_ID_FIELD, $allegroAuctionId)
             ->create();
         return $this->getOne($searchCriteria);
+    }
+
+    /**
+     * @return array
+     */
+    public function getNotChooseAllegroAuction(): array
+    {
+
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter(Competition::IS_CHOOSE_FIELD, 0)
+            ->create();
+        return $this->getList($searchCriteria);
+    }
+
+    public function getCompetitionMinPriceGroupByProduct()
+    {
+        $connection = $this->resourceConnection->getConnection();
+        //Your custom sql query
+        $query = "SELECT min(price) as price, product_id FROM allegro_competition_auctions group by product_id ";
+
+        $data = [];
+        foreach($connection->fetchAll($query) as $row){
+            $data[$row['product_id']] = $row['price'];
+        }
+        return $data;
     }
 
 }
