@@ -159,7 +159,7 @@ class Competition extends AbstractModel implements CompetitionModelInterface
     /**
      * @param string $image
      */
-    public function setImage(string $image)
+    public function setImage(?string $image)
     {
         $this->setData(self::IMAGE_FIELD, $image);
     }

@@ -78,17 +78,21 @@ class Product extends \Magento\Catalog\Model\ResourceModel\Product
     public function getProductWithAllegroSearchKeywordAttribute()
     {
         $allegroOfferIdAttribute = $this->_eavConfig->getAttribute($this->getEntityType(), 'allegro_search_keyword');
-
+        $allegroOfferIdAttribute2 = $this->_eavConfig->getAttribute($this->getEntityType(), 'allegro_offer_id');
         $connection = $this->getConnection();
 
         $select = $connection->select()
             ->from(['e' => 'catalog_product_entity'], ['entity_id','sku'])
-            ->join(['t1' => $allegroOfferIdAttribute->getBackendTable()], 't1.entity_id = e.entity_id',['allegro_search_keyword'=>'value'])
+            ->join(['t1' => $allegroOfferIdAttribute->getBackendTable()], 't1.entity_id = e.entity_id',['allegro_search_keyword'=>'t1.value'])
+            ->join(['t2' => $allegroOfferIdAttribute2->getBackendTable()], 't2.entity_id = e.entity_id',['allegro_offer_id'=>'t2.value'])
             ->where('t1.value IS NOT NULL')
-            ->where('t1.attribute_id = :attributeId');
+            ->where('t1.attribute_id = :attributeId')
+            ->where('t2.attribute_id = :attributeId2')
+        ;
 
         $bind = [
-            ':attributeId' => (int)$allegroOfferIdAttribute->getId()
+            ':attributeId' => (int)$allegroOfferIdAttribute->getId(),
+            ':attributeId2' => (int)$allegroOfferIdAttribute2->getId()
         ];
         return $connection->fetchAll($select, $bind);
     }

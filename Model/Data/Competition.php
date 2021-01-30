@@ -91,7 +91,7 @@ class Competition extends DataObject implements CompetitionInterface
     /**
      * @param string $image
      */
-    public function setImage(string $image)
+    public function setImage(?string $image)
     {
         $this->setData(self::IMAGE_FIELD_NAME, $image);
     }
@@ -138,7 +138,7 @@ class Competition extends DataObject implements CompetitionInterface
     /**
      * @return string
      */
-    public function getImage(): string
+    public function getImage(): ?string
     {
         return $this->getData(self::IMAGE_FIELD_NAME);
     }

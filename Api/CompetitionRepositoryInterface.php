@@ -40,9 +40,10 @@ interface CompetitionRepositoryInterface
 
     /**
      * @param string $allegroAuctionId
+     * @param int $productId
      * @return Competition
      */
-    public function getAllegroAuctionId(string $allegroAuctionId): Competition;
+    public function getAllegroAuctionId(string $allegroAuctionId, int $productId): Competition;
 
     /**
      * @return array

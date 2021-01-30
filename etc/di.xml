@@ -89,6 +89,8 @@
                 <item name="AssociateOffers" xsi:type="object">Macopedia\Allegro\Console\Command\AssociateOffers</item>
                 <item name="OrdersImport" xsi:type="object">Macopedia\Allegro\Console\Command\ImportOrders</item>
                 <item name="OrderImport" xsi:type="object">Macopedia\Allegro\Console\Command\ImportOrder</item>
+                <item name="ImportPriceOffers" xsi:type="object">Macopedia\Allegro\Console\Command\ImportPriceOffers</item>
+                <item name="ImportQuantityOffers" xsi:type="object">Macopedia\Allegro\Console\Command\ImportQuantityOffers</item>
                 <item name="OrdersWithErrorsImport" xsi:type="object">Macopedia\Allegro\Console\Command\ImportOrdersWithErrors</item>
             </argument>
         </arguments>

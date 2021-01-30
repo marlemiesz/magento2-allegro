@@ -178,13 +178,15 @@ class CompetitionRepository implements CompetitionRepositoryInterface
 
     /**
      * @param string $allegroAuctionId
+     * @param int $productId
      * @return Competition
      */
-    public function getAllegroAuctionId(string $allegroAuctionId): Competition
+    public function getAllegroAuctionId(string $allegroAuctionId, int $productId): Competition
     {
 
         $searchCriteria = $this->searchCriteriaBuilder
             ->addFilter(Competition::ALLEGRO_AUCTION_ID_FIELD, $allegroAuctionId)
+            ->addFilter(Competition::PRODUCT_ID_FIELD, $productId)
             ->create();
         return $this->getOne($searchCriteria);
     }
@@ -205,7 +207,7 @@ class CompetitionRepository implements CompetitionRepositoryInterface
     {
         $connection = $this->resourceConnection->getConnection();
         //Your custom sql query
-        $query = "SELECT min(price) as price, product_id FROM allegro_competition_auctions group by product_id ";
+        $query = "SELECT min(price) as price, product_id FROM allegro_competition_auctions where is_competition=1 and active=1 group by product_id ";
 
         $data = [];
         foreach($connection->fetchAll($query) as $row){

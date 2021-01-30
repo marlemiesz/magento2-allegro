@@ -85,7 +85,13 @@ class Processor
     {
 
 
-        $competitionModel = $this->competitionRepository->getAllegroAuctionId($competition->getId());
+        $competitionModel = $this->competitionRepository->getAllegroAuctionId($competition->getId(), $product->getId());
+
+        $allegroOfferId = $product->getData('allegro_offer_id');
+        if($competition->getId() == $allegroOfferId){
+            return;
+        }
+
         if(!$competitionModel || !$competitionModel->getEntityId()){
             $competitionModel = $this->objectManager->create(CompetitionModelInterface::class);
         }

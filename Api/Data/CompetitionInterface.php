@@ -35,7 +35,7 @@ interface CompetitionInterface
     /**
      * @param string $image
      */
-    public function setImage(string $image);
+    public function setImage(?string $image);
 
     /**
      * @return string
@@ -60,7 +60,7 @@ interface CompetitionInterface
     /**
      * @return string
      */
-    public function getImage(): string;
+    public function getImage(): ?string;
 
     /**
      * @param array $rawData

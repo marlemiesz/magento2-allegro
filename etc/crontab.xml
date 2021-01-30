@@ -5,7 +5,16 @@
             <schedule>*/5 * * * *</schedule>
         </job>
         <job instance="Macopedia\Allegro\Cron\CompetitionImport" method="execute" name="macopedia_allegro_competition_import">
-            <schedule>*/5 * * * *</schedule>
+            <schedule>*/30 * * * *</schedule>
+        </job>
+        <job instance="Macopedia\Allegro\Cron\CompetitionsSendToGoogleSheet" method="execute" name="macopedia_allegro_competition_send_to_google_sheet">
+            <schedule>*/30 * * * *</schedule>
+        </job>
+        <job instance="Macopedia\Allegro\Cron\ImportPriceOffers" method="execute" name="macopedia_allegro_import_price_offers">
+            <schedule>*/30 * * * *</schedule>
+        </job>
+        <job instance="Macopedia\Allegro\Cron\ImportQuantityOffers" method="execute" name="macopedia_allegro_import_quantity_offers">
+            <schedule>*/2 * * * *</schedule>
         </job>
         <job instance="Macopedia\Allegro\Cron\ImportOrdersWithErrors" method="execute" name="macopedia_allegro_order_with_errors_import">
             <schedule>0 * * * *</schedule>

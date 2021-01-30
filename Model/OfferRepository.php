@@ -167,7 +167,6 @@ class OfferRepository implements OfferRepositoryInterface
      */
     protected function isNextPage(array $response): bool
     {
-
         return $response['count'] == $this->offers->getLimit() && $response['count'] < $response['totalCount'];
     }
 
